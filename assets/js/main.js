@@ -338,79 +338,124 @@
 			return elementBottom > viewportTop && elementTop < viewportBottom;
 		}
 
-
-
-
-
-		//  tesing  
-		gsap.registerPlugin(ScrollTrigger);
-
 		gsap.to(".map-pin-wrapper", {
-		  scrollTrigger: {
-			trigger: ".map-pin-wrapper",  // The element that triggers the pinning
-			start: "top top",              // Start pinning when the top of the element hits the top of the viewport
-			end: "+=300%",          // Adjust the end based on when you want it to unpin
-			pin: true,                     // Pin the element
-			pinSpacing: true,              // Keep space after the pinned element (if false, it collapses)
-			scrub: true,                   // Smooth scroll effect when pinning/unpinning
-			markers: false                 // Set to true to debug the ScrollTrigger markers
-		  }
-		});
-		gsap.to(".map-pin-title", {
-			opacity: 0,                          // Change opacity to 0
 			scrollTrigger: {
-			  trigger: ".map-pin-title",        // Element that triggers the animation
-			  start: "top 20%",               // Start the animation when the top of the element hits the center of the viewport
-			  end: "bottom top",                  // End when the bottom of the element hits the top of the viewport
-			  scrub: true,                       // Smooth animation while scrolling
-			  markers: false                      // Enable markers for debugging (remove in production)
+			  trigger: ".map-pin-wrapper",  // The element that triggers the pinning
+			  start: "top top",              // Start pinning when the top of the element hits the top of the viewport
+			  end: "+=500%",          // Adjust the end based on when you want it to unpin
+			  pin: true,                     // Pin the element
+			  pinSpacing: true,              // Keep space after the pinned element (if false, it collapses)
+			  scrub: true,                   // Smooth scroll effect when pinning/unpinning
+			  markers: false                 // Set to true to debug the ScrollTrigger markers
 			}
 		  });
-// Split the text into characters
-let mapInnerSplit = new SplitText(".map-inner-caption", { type: "chars" });
-gsap.set(".map-content", { opacity: 1, y: 400 }); // Start from y: bottom of the viewport
+		  gsap.to(".map-pin-title", {
+			  opacity: 0,                          // Change opacity to 0
+			  scrollTrigger: {
+				trigger: ".map-pin-title",        // Element that triggers the animation
+				start: "top 20%",               // Start the animation when the top of the element hits the center of the viewport
+				end: "bottom top",                  // End when the bottom of the element hits the top of the viewport
+				scrub: true,                       // Smooth animation while scrolling
+				markers: false                      // Enable markers for debugging (remove in production)
+			  }
+			});
+  
+			function createMapContentTimeline(wrapper) {
+			  const mapContent = $(wrapper).find('.map-content'); // Select the map content inside the wrapper
+			  const caption = new SplitText(mapContent.find(".map-inner-caption"), { type: "chars" });
+			  const chars = caption.chars; // This is an array of character elements
+		  
+			  // Create the main timeline for the current wrapper
+			  const tl3 = gsap.timeline({
+				  scrollTrigger: {
+					  trigger: wrapper, // Trigger based on the specific wrapper
+					  start: "top 35%", // Start pinning when the top of the wrapper hits 35% of the viewport
+					  end: "+=250%", // End pinning after scrolling 250% of the viewport height
+					  pin: true, // Pin the wrapper
+					  scrub: true, // Smoothly scrub the animation
+					  markers: false, // Show markers for debugging
+					  onLeave: () => {
+						  // When the section unpins, set opacity of the map-content to 0
+						  gsap.to(mapContent, { opacity: 0 });
+					  },
+					  onEnterBack: () => {
+						  // When scrolling back up and pinning again, reset opacity to 1
+						  gsap.to(mapContent, { opacity: 1 });
+					  }
+				  }
+			  });
+		  
+			  // Animate the .map-content from y: 400 to y: 0
+			  tl3.to(mapContent, {
+				  y: 0, // Move to y: 0
+				  duration: 1 // Adjust duration as needed
+			  });
+		  
+			  // Create a timeline for scrolling text animations
+			  const tl2 = gsap.timeline({
+				  scrollTrigger: {
+					  trigger: mapContent, // The element that triggers the scroll
+					  start: "+=120% top", // Trigger when the top of the element reaches the top of the viewport
+					  end: "+=50%", 
+					  scrub: 1, 
+					  markers: false,
+				  }
+			  });
+		  
+			  // Add color change animations to the timeline
+			  chars.forEach((char, index) => {
+				  tl2.to(char, {
+					  color: "#226DFE", // Change color to blue
+					  duration: 0.5, // Duration for the color change
+					  ease: "power1.inOut"
+				  }, index); // Stagger based on character index
+			  });
+		  
+			  // After all characters have changed color, fade out the .map-content
+			  tl2.to(mapContent, {
+				  opacity: 1,
+				  duration: 0.5,
+			  },"+=0.1");
+		  }
+		  
+		  // Create timelines for each map-content-wrapper
+		  $('.map-content-wrapper').each(function() {
+			  createMapContentTimeline(this);
+		  });
 
 
-// Create a timeline for the animations
-let tl2 = gsap.timeline({
-  scrollTrigger: {
-    trigger: ".map-content",
-    start: "top center", // Start when .map-content reaches the center of the viewport
-    end: "+=100%", // Length of the scroll animation (adjust as needed)
-    pin: true,
-    pinSpacing: false, // Prevent additional spacing for the pinned element
-    scrub: true, // Smooth scrubbing
-    markers: true, // Use for debugging; remove when done
-  }
-});
+		//   map img
+		const mapImage = $('.map-img');
+
+	gsap.to(mapImage, {
+		scale: 0.4,
+		opacity: 0, // Start opacity
+		scrollTrigger: {
+			trigger: mapImage,
+			start: "bottom -=100%", // Start when the top of the map hits the top of the viewport
+			end: "+=120%", // End when the bottom of the map hits the top of the viewport
+			scrub: true, // Smooth scrubbing
+			// onUpdate: (self) => {
+			// 	const progress = self.progress();
+			// 	if (progress >= 1) {
+			// 		gsap.to(mapImage, { opacity: 0 }); // Set opacity to 0 when scale reaches 0.3
+			// 	}
+			// },
+			markers: true // Enable markers for debugging (remove in production)
+		}
+	});
+  
 
 
-tl2.to(".map-content", {
-	y: 0,
-	duration: 1,
-  });
-
-// Animate character color changes
-mapInnerSplit.chars.forEach((char, index) => {
-  tl2.to(char, {
-    color: "#f00", // Desired color
-    duration: 0.1, // Duration for the color change
-    ease: "power1.out",
-    delay: index * 100 // Stagger the animation for each character (in seconds)
-  }, "500"); // Start color change at the same time as y animation
-});
-
-// After all character animations, animate .map-content opacity to 0 and unpin
-tl2.to(".map-content", {
-  opacity: 0, // Fade out
-  duration: 1, // Duration for fading out
-  ease: "power3.in", // Smooth easing for fading
-  onComplete: () => {
-    ScrollTrigger.getById("map-content").pin(false); // Unpin after opacity is set to 0
-  }
-}, "<+=0.1"); // Start fading out slightly after the last character animation
 
 		//  tesing  
+
+
+
+
+
+
+	//  tesing  
 
 	});
 })(jQuery);

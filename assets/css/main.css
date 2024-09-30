@@ -42,28 +42,26 @@ body {
 .z-6{
   z-index: 6!important;
 }
-/* 
 html.lenis,
 html.lenis body {
-	height: auto;
+  height: auto;
 }
 
 .lenis.lenis-smooth {
-	scroll-behavior: auto !important;
+  scroll-behavior: auto !important;
 }
 
 .lenis.lenis-smooth [data-lenis-prevent] {
-	overscroll-behavior: contain;
+  overscroll-behavior: contain;
 }
 
 .lenis.lenis-stopped {
-	overflow: hidden;
+  overflow: hidden;
 }
 
 .lenis.lenis-smooth iframe {
-	pointer-events: none;
-} */
-
+  pointer-events: none;
+}
 a {
 	text-decoration: none;
 	color: #fff;
@@ -718,8 +716,13 @@ transform: translateX(-50%);
 /* banner section end */
 
 /* scroll card  section start */
+.scroll-card-area {
+  padding-top: 235px;
+}
+.slide-down-card{
+  display: none;
+}
 .scroll-card-area .main-title {
-  margin-top: 316px;
   margin-bottom: 496px;
 }
 .scroll-card-video {
@@ -768,40 +771,61 @@ transform: translateX(-50%);
 }
 .scoll-card-wrapper .row {
   --bs-gutter-y: 109px;
+} 
+.scroll-card-pin{
+  height: 100%;
+  position: relative;
 }
+
+
 /* scroll card  section end */
 
 /* full background section start */
-/* .full-background {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  overflow: hidden;
+.full-background{
+  padding-top: 511px;
+}
+.full-background .main-title{
+  margin-bottom: 86px;
+}
+.full-img-pin-div {
+  height: 100vh; 
+  position: relative; 
 }
 .img-container {
-  position: absolute;
+  position: absolute; 
+  top: 0;
+  left: 50%; 
+  transform: translateX(-50%);
+  width: 36vw; 
+  height: 80vh; 
 }
-.img-container img {
-  object-fit: cover;
-  object-position: center;
-} */
 
+.img-container img {
+object-fit: cover;
+height: 105vh;
+width: 105vw;
+}
+
+.background-content-wrapper{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
 .background-content {
   position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  padding: 0px 50px;
+  height: 100vh;
+  opacity: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
-.background-caption {
+
+.background-content p {
   text-shadow: 0px 6px 6px rgba(0, 0, 0, 0.45);
   font-size: 80px;
   font-weight: 600;
@@ -824,11 +848,11 @@ transform: translateX(-50%);
   font-family: "Rajdhani", sans-serif ;
 }
 .unconventional-area {
-  padding: 295px 0;
+  padding: 292px 0 303px;
 }
 .unconventional-card-info {
   padding: 0px 14px 44px;
-  min-height: 304px;
+  height: 304px;
 }
 .unconventional-card-wrapper .row {
   --bs-gutter-x: 21px;
@@ -865,7 +889,11 @@ transform: translateX(-50%);
   opacity: 0.5;
 }
 .testimonial-area{
-  margin-bottom: 175px;
+  padding-bottom: 171px;
+}
+.testimonial-area h2 {
+  font-size: 66.458px;
+  margin-bottom: 43px;
 }
 .companies-logo img{
   max-width: 198px;
@@ -1037,31 +1065,57 @@ transform: translateX(-50%);
 /* testimonial section end */
 
 /* map section start */
-.map-area{
-  padding: 103px 0;
-}
-.map-content {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
+
+.map-pin-wrapper{
+  position: relative;
+  height: 100vh;
   width: 100%;
+}
+
+.main-title-div {
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  position: relative;
 }
-.map-content-inner p {
+.map-img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: 100%;
+  transform: translate(-50%, -50%) scale(1);
+  z-index: -1;
+  display: block;
+  max-width: 1440px;
+}
+
+.map-pin-title {
+  opacity: 1; /* Default opacity */
+  transition: opacity 0.5s ease; /* Optional: smooth transition */
+}
+.map-content p {
+  color: #FFF;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 64px;
   font-weight: 500;
   line-height: 1.2;
   text-transform: capitalize;
 }
-.map-content-inner .map-inner-caption{
-  color: #226DFE;
+.map-img {
+  opacity: 1;
+  transition: transform 0.3s, opacity 0.3s; /* Optional for smoother transitions */
 }
+.map-content{
+  transition: 1s;
+}
+
+
+/* .map-content-inner {
+  opacity: 0;
+} */
 /* map section end */
 
 /* uncommon section start */
@@ -1236,9 +1290,7 @@ transform: translateX(-50%);
 /* footer section end */
 
 
-/* testing */
+/* ============= testing ====================== */
 
 
-
-
-/* testing */
+/* ============= testing ====================== */

@@ -35,20 +35,20 @@
 			}
 		});
 
-    $('.companies-card-wrapper').hover(
-      function() {
-          // Remove 'active' class from all other cards
-          $('.companies-card-wrapper').not(this).addClass('active');
-            // Add 'inactive' class to the currently hovered card
-            $(this).addClass('inactive');
-        },
-        function() {
-            // Remove 'active' class from all cards
-            $('.companies-card-wrapper').removeClass('active');
-            // Remove 'inactive' class from the hovered card
-            $(this).removeClass('inactive');
-        }
-    );
+		$('.companies-card-wrapper').hover(
+			function () {
+				// Remove 'active' class from all other cards
+				$('.companies-card-wrapper').not(this).addClass('active');
+				// Add 'inactive' class to the currently hovered card
+				$(this).addClass('inactive');
+			},
+			function () {
+				// Remove 'active' class from all cards
+				$('.companies-card-wrapper').removeClass('active');
+				// Remove 'inactive' class from the hovered card
+				$(this).removeClass('inactive');
+			}
+		);
 		// testimonial slider
 
 
@@ -60,16 +60,16 @@
 			// Calculate the progress as a percentage
 			let progressPercentage = currentTime / videoDuration;
 
-			let radius = $circle[0].r.baseVal.value; 
+			let radius = $circle[0].r.baseVal.value;
 			let circleLength = 2 * Math.PI * radius;
 			let dashoffset = circleLength - (progressPercentage * circleLength);
 			$circle.css('stroke-dashoffset', dashoffset);
 		}
 
-		function setUpVideoProgressBar($video , $activeIndex) {
-      let allCircles = $('.icon-progress-bar');
+		function setUpVideoProgressBar($video, $activeIndex) {
+			let allCircles = $('.icon-progress-bar');
 			let $circle = $(allCircles[$activeIndex]).find('.progress-ring__circle');
-      let iconProgressBar = $()
+			let iconProgressBar = $()
 			if ($circle.length) {
 				let radius = $circle[0].r.baseVal.value;
 				let circleLength = 2 * Math.PI * radius;
@@ -134,11 +134,11 @@
 						$(this).prop('muted', true).get(0).pause();
 					});
 					let $activeVideo = $activeSlide.find('.testimonial-video-item');
-          let $activeIndex = testimonial2.activeIndex;
-          
+					let $activeIndex = testimonial2.activeIndex;
+
 					if ($activeVideo.length) {
 						$activeVideo.prop('muted', false).get(0).play();
-						setUpVideoProgressBar($activeVideo , $activeIndex);
+						setUpVideoProgressBar($activeVideo, $activeIndex);
 					}
 					gsap.to(".slide-bg", {
 						opacity: 1,
@@ -154,156 +154,261 @@
 			},
 		});
 
-    function playAndMuteVideo(index) {
-      let $videos = $('.testimonial-video-item');
-      if (index >= 0 && index < $videos.length) {
-          let $selectedVideo = $videos.eq(index);
-          $selectedVideo.prop('muted', true);
-          $selectedVideo.get(0).play();
-          setUpVideoProgressBar($selectedVideo , 0); 
-      } else {
-          console.error('Invalid index: No video found at this index');
-      }
-  }
-  playAndMuteVideo(0);
-
-//   banner animation 
-gsap.timeline({
-	scrollTrigger: {
-		trigger: ".video-banner",
-		start: "top 10%",
-		end: "+=100%",
-		pin: true,
-		scrub: true,
-		onUpdate: function(self) {
-			// Get the current mask size using jQuery
-			const maskSize = parseFloat($(".banner-video-mask").css("mask-size"));
-			
-			if (maskSize < 15000) {
-				$(".banner-video-mask").removeClass("active");
+		function playAndMuteVideo(index) {
+			let $videos = $('.testimonial-video-item');
+			if (index >= 0 && index < $videos.length) {
+				let $selectedVideo = $videos.eq(index);
+				$selectedVideo.prop('muted', true);
+				$selectedVideo.get(0).play();
+				setUpVideoProgressBar($selectedVideo, 0);
 			} else {
-				$(".banner-video-mask").addClass("active");
+				console.error('Invalid index: No video found at this index');
 			}
 		}
-	}
-})
-.to(".primary-title", { opacity: 0, duration: 0.5 }) 
-.to(".banner-video-mask", { 
-	"mask-size": "1800vh",
-	"-webkit-mask-size": "1800vh", 
-	duration: 0.5,
-	ease: "power3.in",
-	onComplete: function() {
-		// Add the class when the mask-size animation is complete
-		$(".banner-video-mask").addClass("active");
-	}
-}, "-=0.5") 
-.fromTo(".secondary-title", { opacity: 0, y: 100 }, { opacity: 1, y: 0, duration: 0.5 }, "-=0.5");
-//   banner animation 
+		playAndMuteVideo(0);
 
-  // testing 
+		//   banner animation 
+		gsap.timeline({
+				scrollTrigger: {
+					trigger: ".video-banner",
+					start: "top 10%",
+					end: "+=100%",
+					pin: true,
+					scrub: true,
+					onUpdate: function (self) {
+						// Get the current mask size using jQuery
+						const maskSize = parseFloat($(".banner-video-mask").css("mask-size"));
+
+						if (maskSize < 15000) {
+							$(".banner-video-mask").removeClass("active");
+						} else {
+							$(".banner-video-mask").addClass("active");
+						}
+					}
+				}
+			})
+			.to(".primary-title", {
+				opacity: 0,
+				duration: 0.5
+			})
+			.to(".banner-video-mask", {
+				"mask-size": "1800vh",
+				"-webkit-mask-size": "1800vh",
+				duration: 0.5,
+				ease: "power3.in",
+				onComplete: function () {
+					// Add the class when the mask-size animation is complete
+					$(".banner-video-mask").addClass("active");
+				}
+			}, "-=0.5")
+			.fromTo(".secondary-title", {
+				opacity: 0,
+				y: 100
+			}, {
+				opacity: 1,
+				y: 0,
+				duration: 0.5
+			}, "-=0.5");
+		//   banner animation 
+
+		// lenis
+		const lenis = new Lenis()
+
+		lenis.on('scroll', (e) => {
+			// console.log(e)
+		})
+
+		lenis.on('scroll', ScrollTrigger.update)
+
+		gsap.ticker.add((time) => {
+			lenis.raf(time * 1000)
+		})
+		gsap.ticker.lagSmoothing(0)
+		// scroll top 
+		$('.back-top-btn').on('click', function () {
+			lenis.scrollTo('.banner-area');
+		})
+
+		// full background animation 
+		gsap.registerPlugin(ScrollTrigger, SplitText);
+		gsap.to(".img-container", {
+			scrollTrigger: {
+				trigger: ".full-img-pin-div",
+				start: "top 5%",
+				end: "+=100%", // This determines when the image animation ends
+				scrub: true,
+				pin: true,
+			},
+			width: "100vw",
+			height: "100vh",
+			ease: "power2.in",
+			duration: 1,
+		});
+
+
+		let tl = gsap.timeline({
+			scrollTrigger: {
+				trigger: ".background-content-wrapper",
+				start: "top top",
+				pin: true,
+				scrub: true,
+				end: "+=100%",
+			}
+		});
+
+		// Animation for captions based on scroll position
+		tl.to(".caption-1", {
+				opacity: 1,
+				duration: 1
+			}) // Fade in caption 1
+			.to(".caption-1", {
+				opacity: 0,
+				duration: 1
+			}) // Fade out caption 1
+			.to(".caption-2", {
+				opacity: 1,
+				duration: 1
+			}) // Fade in caption 2
+			.to(".caption-2", {
+				opacity: 0,
+				duration: 1
+			}) // Fade out caption 2
+			.to(".caption-3", {
+				opacity: 1,
+				duration: 1
+			});
+
+		// Reset captions at the start of the timeline
+		gsap.set([".caption-1", ".caption-2", ".caption-3"], {
+			opacity: 0
+		});
+
+		// Reverse the timeline when scrolling back
+		ScrollTrigger.create({
+			trigger: ".background-content-wrapper",
+			start: "top 5%",
+			end: "+=100%",
+			onEnterBack: () => tl.reverse(), // Reverse the timeline on scrolling back
+		});
+
+		// card animation 
+		gsap.to(".pin-title", {
+			y: -100,
+			ease: "power1.out",
+			scrollTrigger: {
+				trigger: ".scoll-card-wrapper",
+				start: "top 80%",
+				end: "bottom 30%",
+				pin: ".pin-title",
+				pinSpacing: false,
+				scrub: true,
+			}
+		});
+		const scrollCards = gsap.utils.toArray('.scoll-card-info');
+
+		// Loop through each card and create a ScrollTrigger animation
+		scrollCards.forEach((card) => {
+			gsap.from(card, {
+				opacity: 0, // Start with opacity 0
+				scale: 0.6, // Start scaled down
+				y: 50, // Move down 50px
+				duration: 1, // Animation duration
+				ease: "power1.out", // Easing function
+				scrollTrigger: {
+					trigger: card, // Trigger animation on this card
+					start: "top 80%", // Start when the card is 80% down the viewport
+					toggleActions: "play none none reverse", // Play on enter, reverse on leave
+				}
+			});
+		});
+
+		//   slide down animation 
+		$(window).on('scroll', function () {
+			if (isInViewport($('.unconventional-card-wrapper'))) {
+				$(".slide-down-card").slideDown(1000);
+			}
+		});
+
+		// Function to check if an element is in the viewport
+		function isInViewport(element) {
+			var elementTop = element.offset().top;
+			var elementBottom = elementTop + element.outerHeight();
+			var viewportTop = $(window).scrollTop();
+			var viewportBottom = viewportTop + $(window).height();
+			return elementBottom > viewportTop && elementTop < viewportBottom;
+		}
 
 
 
 
-  
 
-  // testing 
+		//  tesing  
+		gsap.registerPlugin(ScrollTrigger);
 
-  
-  // Example setup for video progress bar function
-		// testing
+		gsap.to(".map-pin-wrapper", {
+		  scrollTrigger: {
+			trigger: ".map-pin-wrapper",  // The element that triggers the pinning
+			start: "top top",              // Start pinning when the top of the element hits the top of the viewport
+			end: "+=300%",          // Adjust the end based on when you want it to unpin
+			pin: true,                     // Pin the element
+			pinSpacing: true,              // Keep space after the pinned element (if false, it collapses)
+			scrub: true,                   // Smooth scroll effect when pinning/unpinning
+			markers: false                 // Set to true to debug the ScrollTrigger markers
+		  }
+		});
+		gsap.to(".map-pin-title", {
+			opacity: 0,                          // Change opacity to 0
+			scrollTrigger: {
+			  trigger: ".map-pin-title",        // Element that triggers the animation
+			  start: "top 20%",               // Start the animation when the top of the element hits the center of the viewport
+			  end: "bottom top",                  // End when the bottom of the element hits the top of the viewport
+			  scrub: true,                       // Smooth animation while scrolling
+			  markers: false                      // Enable markers for debugging (remove in production)
+			}
+		  });
+// Split the text into characters
+let mapInnerSplit = new SplitText(".map-inner-caption", { type: "chars" });
+gsap.set(".map-content", { opacity: 1, y: 400 }); // Start from y: bottom of the viewport
 
 
-		// testing
+// Create a timeline for the animations
+let tl2 = gsap.timeline({
+  scrollTrigger: {
+    trigger: ".map-content",
+    start: "top center", // Start when .map-content reaches the center of the viewport
+    end: "+=100%", // Length of the scroll animation (adjust as needed)
+    pin: true,
+    pinSpacing: false, // Prevent additional spacing for the pinned element
+    scrub: true, // Smooth scrubbing
+    markers: true, // Use for debugging; remove when done
+  }
+});
 
 
-		// Define the scroll-triggered animation function
-		// let videoBannerAnimation = function() {
-		//     let $bannerArea = $('.banner-area.video-banner');
+tl2.to(".map-content", {
+	y: 0,
+	duration: 1,
+  });
 
-		//     if ($bannerArea.length) {
-		//         let $mainTitle = $bannerArea.find('.primary-title');
-		//         let $bannerVideoMask = $bannerArea.find('.banner-video-mask');
-		//         let $secondaryTitle = $bannerArea.find('.secondary-title');
-		//         let $videoOverlay = $bannerArea.find('.banner-video-overlay');
+// Animate character color changes
+mapInnerSplit.chars.forEach((char, index) => {
+  tl2.to(char, {
+    color: "#f00", // Desired color
+    duration: 0.1, // Duration for the color change
+    ease: "power1.out",
+    delay: index * 100 // Stagger the animation for each character (in seconds)
+  }, "500"); // Start color change at the same time as y animation
+});
 
-		//         // Pin the entire video banner section on scroll
-		//         ScrollTrigger.create({
-		//             trigger: $bannerArea[0], // Trigger based on the banner area
-		//             pin: true,               // Pin the section
-		//             start: 'top top',        // Start pinning when the section hits the top
-		//             end: '+=50%',           // Unpin at the end of the section scroll
-		//             pinSpacing: false        // No extra spacing after pinning
-		//         });
-
-		//         // Animate the main title out of view (upwards) on scroll
-		//         gsap.to($mainTitle[0], {
-		//             scrollTrigger: {
-		//                 trigger: $mainTitle[0],
-		//                 scrub: 1,              // Smooth scrub effect
-		//                 start: 'top top',      // Start when the title hits the top
-		//                 end: '+=50%'           // End the animation halfway through the scroll
-		//             },
-		//             y: -100,                  // Move title up
-		//             opacity: 0                // Fade out the title
-		//         });
-
-		//         // Animate the video mask size increase on scroll
-		//         gsap.to($bannerVideoMask[0], {
-		//             scrollTrigger: {
-		//                 trigger: $mainTitle[0], // Trigger based on main title scroll
-		//                 scrub: 1,               // Smooth scrub effect
-		//                 start: 'top top',       // Start when the title hits the top
-		//                 end: '+=100%'           // Continue expanding the mask throughout the scroll
-		//             },
-		//             maskSize: '800vh'          // Increase the mask size to simulate expansion
-		//         });
-
-		//         // Animate the secondary title (fade in and move up)
-		//         gsap.to($secondaryTitle[0], {
-		//             scrollTrigger: {
-		//                 trigger: $mainTitle[0], // Trigger after the main title scrolls up
-		//                 scrub: 1,               // Smooth scrub effect
-		//                 start: 'top top+=50%',  // Start slightly after the main title
-		//                 end: '+=100%'           // End after the scroll progresses further
-		//             },
-		//             opacity: 1,                // Fade in the secondary title
-		//             y: 0                       // Move up to its original position
-		//         });
-
-		//         // Animate the video overlay fade-in
-		//         gsap.to($videoOverlay[0], {
-		//             scrollTrigger: {
-		//                 trigger: $mainTitle[0], // Trigger after the main title scrolls up
-		//                 scrub: 1,               // Smooth scrub effect
-		//                 start: 'top top+=50%',  // Start slightly after the main title
-		//                 end: '+=100%'           // End after the scroll progresses
-		//             },
-		//             opacity: 0.5               // Fade in the overlay to half opacity
-		//         });
-		//     }
-		// };
-
-		// // Call the animation function on page load
-		// videoBannerAnimation();
-
-		// gsap.registerPlugin(ScrollTrigger);
-
-		// gsap.set(".img-container", { scale: 0.5 });
-
-		// gsap.to(".img-container", {
-		//   scale: 1,
-		//   ease: "none",
-		//   scrollTrigger: {
-		//     trigger: ".full-background",
-		//     start: "top top",
-		//     end: "+=200%",
-		//     scrub: true,
-		//     pin: true,
-		//     markers: true
-		//   }
-		// });
+// After all character animations, animate .map-content opacity to 0 and unpin
+tl2.to(".map-content", {
+  opacity: 0, // Fade out
+  duration: 1, // Duration for fading out
+  ease: "power3.in", // Smooth easing for fading
+  onComplete: () => {
+    ScrollTrigger.getById("map-content").pin(false); // Unpin after opacity is set to 0
+  }
+}, "<+=0.1"); // Start fading out slightly after the last character animation
 
 		//  tesing  
 

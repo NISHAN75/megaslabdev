@@ -89,12 +89,38 @@
 				console.error("Circle element not found for progress bar.");
 			}
 		}
-
+		let unconventionalCard = new Swiper(".unconventional-card-slider", {
+			spaceBetween: 16,
+			slidesPerView: 3,
+			breakpoints: {
+				300: {
+					slidesPerView: 1,
+					spaceBetween: 7,
+				},
+				575: {
+					slidesPerView: 2
+				},
+				768: {
+					slidesPerView: 3
+				}
+			},
+		});
 		let testimonial1 = new Swiper(".testimonial-slider", {
 			spaceBetween: 10,
 			slidesPerView: 3,
 			freeMode: true,
 			watchSlidesProgress: true,
+			breakpoints: {
+				300: {
+					slidesPerView: 1,
+				},
+				575: {
+					slidesPerView: 2
+				},
+				768: {
+					slidesPerView: 3
+				}
+			},
 		});
 
 		let testimonial2 = new Swiper(".testimonial-slider-2", {
@@ -167,49 +193,6 @@
 		}
 		playAndMuteVideo(0);
 
-		//   banner animation 
-		gsap.timeline({
-				scrollTrigger: {
-					trigger: ".video-banner",
-					start: "top 10%",
-					end: "+=100%",
-					pin: true,
-					scrub: true,
-					onUpdate: function (self) {
-						// Get the current mask size using jQuery
-						const maskSize = parseFloat($(".banner-video-mask").css("mask-size"));
-
-						if (maskSize < 15000) {
-							$(".banner-video-mask").removeClass("active");
-						} else {
-							$(".banner-video-mask").addClass("active");
-						}
-					}
-				}
-			})
-			.to(".primary-title", {
-				opacity: 0,
-				duration: 0.5
-			})
-			.to(".banner-video-mask", {
-				"mask-size": "1800vh",
-				"-webkit-mask-size": "1800vh",
-				duration: 0.5,
-				ease: "power3.in",
-				onComplete: function () {
-					// Add the class when the mask-size animation is complete
-					$(".banner-video-mask").addClass("active");
-				}
-			}, "-=0.5")
-			.fromTo(".secondary-title", {
-				opacity: 0,
-				y: 100
-			}, {
-				opacity: 1,
-				y: 0,
-				duration: 0.5
-			}, "-=0.5");
-		//   banner animation 
 
 		// lenis
 		const lenis = new Lenis()
@@ -231,20 +214,135 @@
 
 		// full background animation 
 		gsap.registerPlugin(ScrollTrigger, SplitText);
-		gsap.to(".img-container", {
-			scrollTrigger: {
-				trigger: ".full-img-pin-div",
-				start: "top 5%",
-				end: "+=100%", // This determines when the image animation ends
-				scrub: true,
-				pin: true,
-			},
-			width: "100vw",
-			height: "100vh",
-			ease: "power2.in",
-			duration: 1,
-		});
 
+		if (window.innerWidth >= 576) {
+			//   banner animation 
+			gsap.timeline({
+					scrollTrigger: {
+						trigger: ".video-banner",
+						start: "top 10%",
+						end: "+=100%",
+						pin: true,
+						scrub: true,
+						onUpdate: function (self) {
+							// Get the current mask size using jQuery
+							const maskSize = parseFloat($(".banner-video-mask").css("mask-size"));
+
+							if (maskSize < 15000) {
+								$(".banner-video-mask").removeClass("active");
+							} else {
+								$(".banner-video-mask").addClass("active");
+							}
+						}
+					}
+				})
+				.to(".primary-title", {
+					opacity: 0,
+					duration: 0.5
+				})
+				.to(".banner-video-mask", {
+					"mask-size": "1800vh",
+					"-webkit-mask-size": "1800vh",
+					duration: 0.5,
+					ease: "power3.in",
+					onComplete: function () {
+						// Add the class when the mask-size animation is complete
+						$(".banner-video-mask").addClass("active");
+					}
+				}, "-=0.5")
+				.fromTo(".secondary-title", {
+					opacity: 0,
+					y: 100
+				}, {
+					opacity: 1,
+					y: 0,
+					duration: 0.5,
+					delay: 0.5
+				}, "-=0.5");
+			//   banner animation 
+
+			// img container
+			gsap.to(".img-container", {
+				scrollTrigger: {
+					trigger: ".full-img-pin-div",
+					start: "top 5%",
+					end: "+=120%",
+					scrub: true,
+					pin: true,
+					markers: false,
+				},
+				width: "100vw",
+				height: "100vh",
+				duration: 1,
+			});
+		}
+		if (window.innerWidth <= 576) {
+			$(".banner-video-mask").css({
+				"mask-size": "380px",
+				"-webkit-mask-size": "380px"
+			});
+			//   banner animation 
+			gsap.timeline({
+					scrollTrigger: {
+						trigger: ".video-banner",
+						start: "top 10%",
+						end: "+=100%",
+						pin: true,
+						scrub: true,
+						onUpdate: function (self) {
+							// Get the current mask size using jQuery
+							const maskSize = parseFloat($(".banner-video-mask").css("mask-size"));
+
+							if (maskSize < 4000) {
+								$(".banner-video-mask").removeClass("active");
+							} else {
+								$(".banner-video-mask").addClass("active");
+							}
+						}
+					}
+				})
+				.to(".primary-title", {
+					opacity: 0,
+					duration: 0.5
+				})
+				.to(".banner-video-mask", {
+					"mask-size": "1000vh",
+					"-webkit-mask-size": "1000vh",
+					duration: 0.5,
+					ease: "power3.in",
+					onComplete: function () {
+						// Add the class when the mask-size animation is complete
+						$(".banner-video-mask").addClass("active");
+					}
+				}, "-=0.5")
+				.fromTo(".secondary-title", {
+					opacity: 0,
+					y: 100
+				}, {
+					opacity: 1,
+					y: 0,
+					duration: 0.5,
+					delay: 0.5
+				}, "-=0.5");
+			//   banner animation 
+			// img container
+			gsap.to(".img-container", {
+
+				scrollTrigger: {
+					trigger: ".full-img-pin-div",
+					start: "top 30%",
+					end: "+=150%",
+					scrub: true,
+					pin: true,
+					markers: false,
+				},
+				width: "100vw",
+				height: "100vh",
+				duration: 1,
+
+
+			});
+		}
 
 		let tl = gsap.timeline({
 			scrollTrigger: {
@@ -255,7 +353,6 @@
 				end: "+=100%",
 			}
 		});
-
 		// Animation for captions based on scroll position
 		tl.to(".caption-1", {
 				opacity: 1,
@@ -288,174 +385,231 @@
 			trigger: ".background-content-wrapper",
 			start: "top 5%",
 			end: "+=100%",
-			onEnterBack: () => tl.reverse(), // Reverse the timeline on scrolling back
+			onEnterBack: () => tl.reverse(),
 		});
 
-		// card animation 
-		gsap.to(".pin-title", {
-			y: -100,
-			ease: "power1.out",
-			scrollTrigger: {
-				trigger: ".scoll-card-wrapper",
-				start: "top 80%",
-				end: "bottom 30%",
-				pin: ".pin-title",
-				pinSpacing: false,
-				scrub: true,
-			}
-		});
-		const scrollCards = gsap.utils.toArray('.scoll-card-info');
 
-		// Loop through each card and create a ScrollTrigger animation
-		scrollCards.forEach((card) => {
-			gsap.from(card, {
-				opacity: 0, // Start with opacity 0
-				scale: 0.6, // Start scaled down
-				y: 50, // Move down 50px
-				duration: 1, // Animation duration
-				ease: "power1.out", // Easing function
+		if (window.innerWidth >= 992) {
+			gsap.to(".pin-title", {
+				y: -100,
+				ease: "power1.out",
 				scrollTrigger: {
-					trigger: card, // Trigger animation on this card
-					start: "top 80%", // Start when the card is 80% down the viewport
-					toggleActions: "play none none reverse", // Play on enter, reverse on leave
+					trigger: ".scoll-card-wrapper",
+					start: "top 80%",
+					end: "+=250%",
+					pin: ".pin-title",
+					pinSpacing: false,
+					scrub: true,
+				}
+			});
+			const scrollCards = gsap.utils.toArray('.scoll-card-info');
+			// Loop through each card and create a ScrollTrigger animation
+			scrollCards.forEach((card) => {
+				gsap.from(card, {
+					opacity: 0, // Start with opacity 0
+					scale: 0.8, // Start scaled down
+					y: 50, // Move down 50px
+					duration: 1, // Animation duration
+					ease: "power1.out", // Easing function
+					scrollTrigger: {
+						trigger: card, // Trigger animation on this card
+						start: "top 80%", // Start when the card is 80% down the viewport
+						toggleActions: "play none none reverse", // Play on enter, reverse on leave
+					}
+				});
+			});
+		}
+
+
+		// card animation
+		$('.slide-down-card').each(function () {
+			const card = this;
+			gsap.fromTo(card, {
+				height: '0'
+			}, {
+				height: '100%',
+				duration: 1.2,
+				ease: 'power1.out',
+				scrollTrigger: {
+					trigger: card,
+					start: 'top 80%',
+					end: "+=100%",
+					toggleActions: 'play none none reverse',
 				}
 			});
 		});
 
-		//   slide down animation 
-		$(window).on('scroll', function () {
-			if (isInViewport($('.unconventional-card-wrapper'))) {
-				$(".slide-down-card").slideDown(1000);
-			}
-		});
-
-		// Function to check if an element is in the viewport
-		function isInViewport(element) {
-			var elementTop = element.offset().top;
-			var elementBottom = elementTop + element.outerHeight();
-			var viewportTop = $(window).scrollTop();
-			var viewportBottom = viewportTop + $(window).height();
-			return elementBottom > viewportTop && elementTop < viewportBottom;
-		}
 
 		gsap.to(".map-pin-wrapper", {
 			scrollTrigger: {
-			  trigger: ".map-pin-wrapper",  // The element that triggers the pinning
-			  start: "top top",              // Start pinning when the top of the element hits the top of the viewport
-			  end: "+=500%",          // Adjust the end based on when you want it to unpin
-			  pin: true,                     // Pin the element
-			  pinSpacing: true,              // Keep space after the pinned element (if false, it collapses)
-			  scrub: true,                   // Smooth scroll effect when pinning/unpinning
-			  markers: false                 // Set to true to debug the ScrollTrigger markers
+				trigger: ".map-pin-wrapper", // The element that triggers the pinning
+				start: "top top", // Start pinning when the top of the element hits the top of the viewport
+				end: "+=360%", // Adjust the end based on when you want it to unpin
+				pin: true, // Pin the element
+				pinSpacing: true, // Keep space after the pinned element (if false, it collapses)
+				scrub: true, // Smooth scroll effect when pinning/unpinning
+				markers: false // Set to true to debug the ScrollTrigger markers
 			}
-		  });
-		  gsap.to(".map-pin-title", {
-			  opacity: 0,                          // Change opacity to 0
-			  scrollTrigger: {
-				trigger: ".map-pin-title",        // Element that triggers the animation
-				start: "top 20%",               // Start the animation when the top of the element hits the center of the viewport
-				end: "bottom top",                  // End when the bottom of the element hits the top of the viewport
-				scrub: true,                       // Smooth animation while scrolling
-				markers: false                      // Enable markers for debugging (remove in production)
-			  }
+		});
+		gsap.to(".map-pin-title", {
+			opacity: 0, // Change opacity to 0
+			scrollTrigger: {
+				trigger: ".map-pin-title", // Element that triggers the animation
+				start: "top 20%", // Start the animation when the top of the element hits the center of the viewport
+				end: "bottom top", // End when the bottom of the element hits the top of the viewport
+				scrub: true, // Smooth animation while scrolling
+				markers: false // Enable markers for debugging (remove in production)
+			}
+		});
+		// content slide up
+		function createMapContentTimeline(wrapper, index) {
+			const mapContent = $(wrapper).find('.map-content');
+			const caption = new SplitText(mapContent.find(".map-inner-caption"), {
+				type: "chars",
+				tag: "span"
 			});
-  
-			function createMapContentTimeline(wrapper) {
-			  const mapContent = $(wrapper).find('.map-content'); // Select the map content inside the wrapper
-			  const caption = new SplitText(mapContent.find(".map-inner-caption"), { type: "chars" });
-			  const chars = caption.chars; // This is an array of character elements
-		  
-			  // Create the main timeline for the current wrapper
-			  const tl3 = gsap.timeline({
-				  scrollTrigger: {
-					  trigger: wrapper, // Trigger based on the specific wrapper
-					  start: "top 35%", // Start pinning when the top of the wrapper hits 35% of the viewport
-					  end: "+=250%", // End pinning after scrolling 250% of the viewport height
-					  pin: true, // Pin the wrapper
-					  scrub: true, // Smoothly scrub the animation
-					  markers: false, // Show markers for debugging
-					  onLeave: () => {
-						  // When the section unpins, set opacity of the map-content to 0
-						  gsap.to(mapContent, { opacity: 0 });
-					  },
-					  onEnterBack: () => {
-						  // When scrolling back up and pinning again, reset opacity to 1
-						  gsap.to(mapContent, { opacity: 1 });
-					  }
-				  }
-			  });
-		  
-			  // Animate the .map-content from y: 400 to y: 0
-			  tl3.to(mapContent, {
-				  y: 0, // Move to y: 0
-				  duration: 1 // Adjust duration as needed
-			  });
-		  
-			  // Create a timeline for scrolling text animations
-			  const tl2 = gsap.timeline({
-				  scrollTrigger: {
-					  trigger: mapContent, // The element that triggers the scroll
-					  start: "+=120% top", // Trigger when the top of the element reaches the top of the viewport
-					  end: "+=50%", 
-					  scrub: 1, 
-					  markers: false,
-				  }
-			  });
-		  
-			  // Add color change animations to the timeline
-			  chars.forEach((char, index) => {
-				  tl2.to(char, {
-					  color: "#226DFE", // Change color to blue
-					  duration: 0.5, // Duration for the color change
-					  ease: "power1.inOut"
-				  }, index); // Stagger based on character index
-			  });
-		  
-			  // After all characters have changed color, fade out the .map-content
-			  tl2.to(mapContent, {
-				  opacity: 1,
-				  duration: 0.5,
-			  },"+=0.1");
-		  }
-		  
-		  // Create timelines for each map-content-wrapper
-		  $('.map-content-wrapper').each(function() {
-			  createMapContentTimeline(this);
-		  });
+			const chars = caption.chars;
 
 
+			const tl3 = gsap.timeline({
+				scrollTrigger: {
+					trigger: wrapper,
+					start: "top 35%",
+					end: "+=155%",
+					pin: true,
+					scrub: true,
+					markers: false,
+					onEnter: () => {
+						if (index === 1) {
+							let mapButton = $(wrapper).find('.map-content').find('.map-bottom-btn');
+							if (mapButton.length) {
+								gsap.to(".map-bottom-btn", {
+									opacity: 1,
+									duration: 0.5,
+									delay: 0.1
+								});
+							}
+						}
+					},
+					onLeave: () => {
+						gsap.to(mapContent, {
+							opacity: 0
+						});
+						if (index === 1) {
+							let mapButton = $(wrapper).find('.map-content').find('.map-bottom-btn');
+							if (mapButton.length) {
+								gsap.to(".map-bottom-btn", {
+									opacity: 0,
+									duration: 0.5,
+									delay: 0.1
+								});
+							}
+						}
+
+
+					},
+					onEnterBack: () => {
+						gsap.to(mapContent, {
+							opacity: 1
+						});
+						if (index === 1) {
+							let mapButton = $(wrapper).find('.map-content').find('.map-bottom-btn');
+							if (mapButton.length) {
+								gsap.to(".map-bottom-btn", {
+									opacity: 1,
+									duration: 0.5,
+									delay: 0.1
+								});
+							}
+						}
+					}
+				}
+			});
+			tl3.to(mapContent, {
+				y: 0,
+				duration: 0.5
+			});
+			const tl2 = gsap.timeline({
+				scrollTrigger: {
+					trigger: mapContent,
+					start: "+=60% top",
+					end: "+=35%",
+					scrub: 1,
+					markers: false,
+				}
+			});
+			chars.forEach((char, index) => {
+				tl2.to(char, {
+					color: "#226DFE",
+					duration: 0.5,
+					ease: "power1.inOut"
+				}, index);
+			});
+			tl2.to(mapContent, {
+				opacity: 1,
+				duration: 0.5,
+			}, "+=0.1");
+		}
+		$('.map-content-wrapper').each(function (index) {
+			createMapContentTimeline(this, index);
+		});
 		//   map img
 		const mapImage = $('.map-img');
-
-	gsap.to(mapImage, {
-		scale: 0.4,
-		opacity: 0, // Start opacity
-		scrollTrigger: {
-			trigger: mapImage,
-			start: "bottom -=100%", // Start when the top of the map hits the top of the viewport
-			end: "+=120%", // End when the bottom of the map hits the top of the viewport
-			scrub: true, // Smooth scrubbing
-			// onUpdate: (self) => {
-			// 	const progress = self.progress();
-			// 	if (progress >= 1) {
-			// 		gsap.to(mapImage, { opacity: 0 }); // Set opacity to 0 when scale reaches 0.3
-			// 	}
-			// },
-			markers: true // Enable markers for debugging (remove in production)
+		gsap.to(mapImage, {
+			scale: 0.4,
+			opacity: 0, // Start opacity
+			scrollTrigger: {
+				trigger: mapImage,
+				start: "bottom -=50%",
+				end: "+=100%",
+				scrub: true,
+				markers: false
+			}
+		});
+		// m logo icon
+		gsap.to(".m-logo-div", {
+			y: 0, // Final position
+			scrollTrigger: {
+				trigger: ".m-logo-div",
+				start: "top -=100%",
+				end: "+=200%",
+				scrub: true,
+				markers: false
+			},
+		});
+		// Function to handle adding the 'active' class
+		function addActiveClass(element) {
+			$('.title-line').removeClass('active');
+			$(element).addClass('active');
 		}
-	});
-  
 
+		function removeActiveClass(element) {
+			$(element).removeClass('active');
+		}
+		$('.banner-area .title-line').addClass('active');
+		gsap.utils.toArray(".title-line").forEach(function (element) {
+			gsap.to(element, {
+				scrollTrigger: {
+					trigger: element,
+					start: "top 70%",
+					end: "+=100%",
+					markers: false,
+					onEnter: function () {
+						addActiveClass(element);
+					},
+					onLeave: function () {
+						removeActiveClass(element);
+					},
+					onEnterBack: function () {
+						addActiveClass(element);
+					},
+					onLeaveBack: function () {
+						removeActiveClass(element);
+					}
+				}
+			});
+		});
 
-
-		//  tesing  
-
-
-
-
-
-
-	//  tesing  
 
 	});
 })(jQuery);
